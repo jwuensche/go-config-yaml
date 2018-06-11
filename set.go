@@ -13,7 +13,6 @@ type configContent struct {
 }
 
 //Set implements a basic set functionanality with one key and an according value
-
 func (config Config) Set(key string, value string) (conErr error) {
 	if _, err := os.Stat(config.params.workdir + config.params.name); err != nil {
 		_, err := os.Create(config.params.workdir + config.params.name)
@@ -21,38 +20,6 @@ func (config Config) Set(key string, value string) (conErr error) {
 			conErr = errors.New("Error creating file")
 		}
 	}
-	//
-	// 	yml := make(map[string]string)
-	// 	yml[key] = value
-	// 	byteYml, err = yaml.Marshal(&yml)
-	// 	f.Write(byteYml)
-	//
-	// } else {
-	// 	f, err := ioutil.ReadFile(config.params.workdir + config.params.name)
-	// 	if err != nil {
-	// 		conErr = errors.New("Config file failed to open")
-	// 	}
-	// 	var yml interface{}
-	// 	err = yaml.Unmarshal([]byte(f), &yml)
-	// 	if err != nil {
-	// 		conErr = errors.New("Config file failed to read")
-	// 	}
-	// 	assertYml := yml.(map[string]interface{})
-	// 	assertYml[key] = value
-	// 	byteYml, err = yaml.Marshal(assertYml)
-	// 	if err != nil {
-	// 		conErr = errors.New("Encoding Config to yaml failed")
-	// 	}
-	// }
-	//
-	// file, err := os.OpenFile(config.params.workdir+config.params.name, os.O_WRONLY, config.params.permissions)
-	// if err != nil {
-	// 	conErr = errors.New("Config file write access failed")
-	// }
-	//
-	// file.Write(byteYml)
-	// return
-
 	//Handling of simple setting first value or overwrite full config
 
 	var yml map[string]string

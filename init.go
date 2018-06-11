@@ -8,11 +8,11 @@ import (
 //Config is the base type that config library uses to save and abstract usage for the user
 type Config struct {
 	params Parameters
-	Get    func(string) string
 	create func(string) error
 }
 
 //Parameters contains all parameters necessary to
+// Currently a mandatory .yml is attached to every name, this can be changed in the future
 type Parameters struct {
 	workdir        string
 	name           string
@@ -33,17 +33,18 @@ func NewConfig(workdir string, name string, ignoreExisting bool, permissions os.
 		params: param,
 	}
 
-	// This is commented out until i fix the issue occuring on first init with empty field
-	// if _, err := os.Stat(param.workdir + param.name); err != nil {
-	// 	_, err := os.Create(param.workdir + param.name)
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// }
-	if param.ignoreExisting == false {
-		conErr = errors.New("File already exists")
-		return
+	//This is commented out until i fix the issue occuring on first init with empty field
+
+	if param.ignoreExisting == true {
+		if _, err := os.Stat(param.workdir + param.name); err != nil {
+			_, err := os.Create(param.workdir + param.name)
+			if err != nil {
+				conErr = errors.New("Error creating file")
+				return
+			}
+		}
 	}
+
 	conErr = nil
 	return
 }
