@@ -8,7 +8,6 @@ import (
 //Config is the base type that config library uses to save and abstract usage for the user
 type Config struct {
 	params Parameters
-	create func(string) error
 }
 
 //Parameters contains all parameters necessary to
@@ -32,8 +31,6 @@ func NewConfig(workdir string, name string, ignoreExisting bool, permissions os.
 	file = Config{
 		params: param,
 	}
-
-	//This is commented out until i fix the issue occuring on first init with empty field
 
 	if param.ignoreExisting == true {
 		if _, err := os.Stat(param.workdir + param.name); err != nil {

@@ -6,7 +6,12 @@ import (
 	"testing"
 
 	config "github.com/jwuensche/go-config-yaml"
+	yaml "gopkg.in/yaml.v2"
 )
+
+type teststruc struct {
+	name string
+}
 
 //TestInit tests
 func TestInit(t *testing.T) {
@@ -26,7 +31,7 @@ func TestInit(t *testing.T) {
 }
 
 func TestSet(t *testing.T) {
-	confFile, err := config.NewConfig("config", "test", true, 0722)
+	confFile, err := config.NewConfig("config/", "test", true, 0722)
 	if err != nil {
 		fmt.Println(err)
 		t.FailNow()
@@ -35,11 +40,12 @@ func TestSet(t *testing.T) {
 }
 
 func TestGet(t *testing.T) {
-	configFile, err := config.NewConfig("config", "test", false, 0722)
+	configFile, err := config.NewConfig("config/", "test", false, 0722)
 	if err != nil {
 		fmt.Println(err)
 		t.FailNow()
 	}
+
 	value, err := configFile.Get("stuff")
 	if err != nil {
 		fmt.Println(err)
@@ -50,9 +56,24 @@ func TestGet(t *testing.T) {
 		t.FailNow()
 	}
 }
+func TestSetByte(t *testing.T) {
+	configFile, err := config.NewConfig("config/", "byte", true, 0722)
+	if err != nil {
+		t.FailNow()
+	}
+
+	test := teststruc{
+		name: "stuff",
+	}
+	yml, _ := yaml.Marshal(test)
+	err = configFile.SetByte("some", yml)
+	if err != nil {
+		fmt.Println("Error setting byte data")
+	}
+}
 
 func TestDelete(t *testing.T) {
-	configFile, err := config.NewConfig("config", "test", false, 0722)
+	configFile, err := config.NewConfig("config/", "test", false, 0722)
 	if err != nil {
 		fmt.Println(err)
 		t.FailNow()
