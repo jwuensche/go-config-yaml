@@ -16,8 +16,8 @@ type teststruc struct {
 //TestInit tests
 func TestInit(t *testing.T) {
 	os.MkdirAll("config", 0722)
-	os.Remove("config/test.yml")
-	configF, err := config.NewConfig("config/", "test", false, 0722)
+	// os.Remove("config/test.yml")
+	configF, err := config.NewConfig("config/", "test", true, 0722)
 	if err != nil {
 		fmt.Println(err)
 		t.FailNow()
@@ -31,12 +31,17 @@ func TestInit(t *testing.T) {
 }
 
 func TestSet(t *testing.T) {
-	confFile, err := config.NewConfig("config/", "test", true, 0722)
+	confFile, err := config.NewConfig("config/", "test", false, 0722)
 	if err != nil {
 		fmt.Println(err)
 		t.FailNow()
 	}
 	confFile.Set("stuff", "something")
+	confFile.Set("test", "345345")
+	v, _ := confFile.Get("stuff")
+	if v != "something" {
+		t.FailNow()
+	}
 }
 
 func TestGet(t *testing.T) {
@@ -57,7 +62,7 @@ func TestGet(t *testing.T) {
 	}
 }
 func TestSetByte(t *testing.T) {
-	configFile, err := config.NewConfig("config/", "byte", true, 0722)
+	configFile, err := config.NewConfig("config/", "byte", false, 0722)
 	if err != nil {
 		t.FailNow()
 	}
@@ -72,14 +77,14 @@ func TestSetByte(t *testing.T) {
 	}
 }
 
-func TestDelete(t *testing.T) {
-	configFile, err := config.NewConfig("config/", "test", false, 0722)
-	if err != nil {
-		fmt.Println(err)
-		t.FailNow()
-	}
-	if err = configFile.DeleteConfig(); err != nil {
-		fmt.Println(err)
-		t.FailNow()
-	}
-}
+// func TestDelete(t *testing.T) {
+// 	configFile, err := config.NewConfig("config/", "test", false, 0722)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		t.FailNow()
+// 	}
+// 	if err = configFile.DeleteConfig(); err != nil {
+// 		fmt.Println(err)
+// 		t.FailNow()
+// 	}
+// }

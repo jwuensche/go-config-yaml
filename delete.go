@@ -1,7 +1,6 @@
 package config
 
 import (
-	"errors"
 	"os"
 )
 
@@ -9,7 +8,7 @@ import (
 func (config Config) DeleteConfig() (conErr error) {
 	err := os.Remove(config.params.workdir + config.params.name)
 	if err != nil {
-		conErr = errors.New("Deletion failed")
+		conErr = err
 		return
 	}
 	conErr = nil

@@ -11,16 +11,20 @@ import (
 func (config Config) Get(key string) (value string, conErr error) {
 	f, err := ioutil.ReadFile(config.params.workdir + config.params.name)
 	if err != nil {
-		conErr = errors.New("Config failed to open")
+		conErr = err
 		return
 	}
 	var yml map[string]string
 	err = yaml.Unmarshal([]byte(f), &yml)
 	if err != nil {
-		conErr = errors.New("Config file failed to read")
+		conErr = err
 		return
 	}
-
+	_, exists := yml[key]
+	if exists != true {
+		conErr = errors.New("Config contains no key called " + key)
+		return
+	}
 	value = yml[key]
 
 	conErr = nil

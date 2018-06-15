@@ -20,7 +20,7 @@ func (config Config) Set(key string, value string) (conErr error) {
 
 	rawRead, err := ioutil.ReadFile(config.params.workdir + config.params.name)
 	if err != nil {
-		conErr = errors.New("Reading in existing config failed")
+		conErr = err
 		return
 	}
 	yml = map[string]string{}
@@ -29,14 +29,14 @@ func (config Config) Set(key string, value string) (conErr error) {
 	//From here on arches should connect again otherwise i have to tidythis up again
 	file, err := os.OpenFile(config.params.workdir+config.params.name, os.O_WRONLY, config.params.permissions)
 	if err != nil {
-		conErr = errors.New("Opening in File failed")
+		conErr = err
 		return
 	}
 	yml[key] = value
 
 	ymlByte, err := yaml.Marshal(yml)
 	if err != nil {
-		conErr = errors.New("Encoding of config failed")
+		conErr = err
 		return
 	}
 	file.Write(ymlByte)

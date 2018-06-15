@@ -1,7 +1,6 @@
 package config
 
 import (
-	"errors"
 	"os"
 )
 
@@ -36,7 +35,7 @@ func NewConfig(workdir string, name string, ignoreExisting bool, permissions os.
 		if _, err := os.Stat(param.workdir + param.name); err != nil {
 			_, err := os.Create(param.workdir + param.name)
 			if err != nil {
-				conErr = errors.New("Error creating file")
+				conErr = err
 				return
 			}
 		}
