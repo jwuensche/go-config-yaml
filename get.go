@@ -25,8 +25,32 @@ func (config Config) Get(key string) (value string, conErr error) {
 		conErr = errors.New("Config contains no key called " + key)
 		return
 	}
-	value = yml[key]
 
+	value = yml[key]
+	conErr = nil
+	return
+}
+
+//GetByte implements a getter for simple byte slice set in the config
+func (config Config) GetByte(key string) (value []byte, conErr error) {
+	f, err := ioutil.ReadFile(config.params.workdir + config.params.name)
+	if err != nil {
+		conErr = err
+		return
+	}
+	var yml map[string][]byte
+	err = yaml.Unmarshal([]byte(f), &yml)
+	if err != nil {
+		conErr = err
+		return
+	}
+	_, exists := yml[key]
+	if exists != true {
+		conErr = errors.New("Config contains no key called " + key)
+		return
+	}
+
+	value = yml[key]
 	conErr = nil
 	return
 }

@@ -77,14 +77,14 @@ func TestSetByte(t *testing.T) {
 	}
 }
 
-// func TestDelete(t *testing.T) {
-// 	configFile, err := config.NewConfig("config/", "test", false, 0722)
-// 	if err != nil {
-// 		fmt.Println(err)
-// 		t.FailNow()
-// 	}
-// 	if err = configFile.DeleteConfig(); err != nil {
-// 		fmt.Println(err)
-// 		t.FailNow()
-// 	}
-// }
+func TestDelete(t *testing.T) {
+	configFile, err := config.NewConfig("config/", "test", false, 0722)
+	if err != nil {
+		fmt.Println(err)
+		t.FailNow()
+	}
+	if err = configFile.DeleteConfig(); err != nil {
+		fmt.Println(err)
+		t.FailNow()
+	}
+}

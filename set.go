@@ -26,7 +26,6 @@ func (config Config) Set(key string, value string) (conErr error) {
 	yml = map[string]string{}
 	yaml.Unmarshal([]byte(rawRead), &yml)
 
-	//From here on arches should connect again otherwise i have to tidythis up again
 	file, err := os.OpenFile(config.params.workdir+config.params.name, os.O_WRONLY, config.params.permissions)
 	if err != nil {
 		conErr = err
